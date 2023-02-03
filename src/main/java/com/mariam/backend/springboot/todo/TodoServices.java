@@ -1,5 +1,6 @@
 package com.mariam.backend.springboot.todo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -10,61 +11,48 @@ import java.util.List;
 @Service
 public class TodoServices {
 
-    private List<Todo> data = new ArrayList<Todo>(Arrays.asList(
+    @Autowired
+    private TodoRepository todoRepository;
 
-            new Todo(0, "todo item-0", "bla bla bla bla bla bla bla bla"),
-            new Todo(1, "todo item-1", "bla bla bla bla bla bla bla bla"),
-            new Todo(2, "todo item-2", "bla bla bla bla bla bla bla bla"),
-            new Todo(3, "todo item-3", "bla bla bla bla bla bla bla bla"),
-            new Todo(4, "todo item-4", "bla bla bla bla bla bla bla bla"))
-    );
-
-    public Todo getTodoWithID(int id) {
-        for (Todo todo: data){
-            if(todo.getId() == id){
-                return todo;
-            }
-        }
-        return null;
+    public Todo getTodoWithID(String id) {
+      return todoRepository.findById(id).get();
     }
 
+    /**
+     * Get all todos
+     * @return List<Todo>
+     */
     public List<Todo> findAll() {
-        return data;
+        return todoRepository.findAll();
     }
 
-    public int size() {
-        return data.size();
-    }
+
 
     public Todo get(int itemNumber) {
-        return data.get(itemNumber);
+        return todoRepository.findAll().get(itemNumber);
     }
 
-    public Boolean save(Todo todo){
-        return data.add(todo);
+    public Todo save(Todo todo){
+        return todoRepository.insert(todo);
     }
 
-    public void deleteTodo(int id) {
-        for (Todo deletedTodo:data){
-            if(deletedTodo.getId() == id){
-                data.remove(deletedTodo);
-            }
-        }
+    public void deleteTodo(String id) {
+        todoRepository.deleteById(id);
     }
 
-    public void editTitle(int id, String newTitle) {
-        for (Todo todo:data){
-            if(todo.getId() == id){
-                todo.setTitle(newTitle);
-            }
-        }
-    }
-
-    public void editDescription(int id, String newDescription) {
-        for (Todo todo:data){
-            if(todo.getId() == id){
-                todo.setDescription(newDescription);
-            }
-        }
-    }
+//    public void editTitle(String id, String newTitle) {
+//        for (Todo todo:data){
+//            if(todo.getId() == id){
+//                todo.setTitle(newTitle);
+//             }
+//        }
+//    }
+//
+//    public void editDescription(String id, String newDescription) {
+//        for (Todo todo:data){
+//            if(todo.getId() == id){
+//                todo.setDescription(newDescription);
+//            }
+//        }
+//    }
 }

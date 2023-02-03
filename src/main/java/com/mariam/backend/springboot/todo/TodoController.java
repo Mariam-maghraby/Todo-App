@@ -22,42 +22,35 @@ public class TodoController {
     @GetMapping(value = {"todo-{itemNumber}","todo-{itemNumber}/" })
     public Todo todoItem(@PathVariable int itemNumber){
         Todo dataItem;
-        if(itemNumber<todoServices.size()) {
-            dataItem = todoServices.get(itemNumber);
-        }
-        else {
-            dataItem = null;
-        }
+        dataItem = todoServices.get(itemNumber);
         return dataItem;
     }
 
     @GetMapping(value = {"todo/id/{ID}", "todo/id/{ID}/"})
-    public Todo getTodoById(@PathVariable int ID){
+    public Todo getTodoById(@PathVariable String ID){
         return todoServices.getTodoWithID(ID);
     }
 
     @PostMapping(value = {"","/"})
     public Todo createNewTodo(@RequestBody Todo todo){
-     if(todoServices.save(todo)){
-         return todo;
-     }
-     return null;
+         return todoServices.save(todo);
     }
 
+
     @DeleteMapping (value = {"todo/id/{ID}", "todo/id/{ID}/"})
-    public void deleteTodoItem(@PathVariable int ID){
+    public void deleteTodoItem(@PathVariable String ID){
         todoServices.deleteTodo(ID);
     }
 
 //    //check
 //    @PostMapping(value = {"todo/title/id/{ID}", "todo/title/id/{ID}"})
-//    public void editTodoTitle(@PathVariable int ID, @RequestParam String newTitle){
+//    public void editTodoTitle(@PathVariable String ID, @RequestParam String newTitle){
 //        todoServices.editTitle(ID, newTitle);
 //    }
 //
 //    //check
 //    @PostMapping(value = {"todo/id/{ID}/desp{newDescription}", "todo/id/{ID}/desp{newDescription}"})
-//    public void editTodoDescription(@PathVariable int ID, @PathVariable String newDescription){
+//    public void editTodoDescription(@PathVariable String ID, @PathVariable String newDescription){
 //        todoServices.editDescription(ID, newDescription);
 //    }
 

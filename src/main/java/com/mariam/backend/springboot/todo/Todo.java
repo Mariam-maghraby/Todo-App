@@ -1,17 +1,29 @@
 package com.mariam.backend.springboot.todo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collation = "Todos") //overrides the name of type of data as todos not todo
 public class Todo {
-    private int id;
+    @Id
+    private String id;
+
     private String title;
     private String description;
+    private Long timeStamp;
 
-    public Todo(int id, String title, String description) {
+    public Todo() {
+        this.timeStamp = System.currentTimeMillis();
+    }
+
+    public Todo(String id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.timeStamp = System.currentTimeMillis();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -23,7 +35,7 @@ public class Todo {
         return description;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -33,5 +45,13 @@ public class Todo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
